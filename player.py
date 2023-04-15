@@ -10,6 +10,7 @@ class Player(pg.sprite.Sprite):
         super().__init__() 
         self.image = pg.image.load(img)
         self.rect = self.image.get_rect()
+        self.score = 0
         self.width = 30
         self.height = 30
         self.surf = pg.Surface((self.width, self.height))
