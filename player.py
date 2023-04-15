@@ -6,9 +6,9 @@ from pygame.locals import *
 vec = pg.math.Vector2
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, left, right):
+    def __init__(self, left, right, img):
         super().__init__() 
-        self.image = pg.image.load("RobotPlayer.png")
+        self.image = pg.image.load(img)
         self.rect = self.image.get_rect()
         self.width = 30
         self.height = 30

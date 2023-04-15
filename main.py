@@ -2,19 +2,22 @@ import pygame as pg
 import sys
 import random
 from Platform import Platform
+from coin import Coin 
 
 from pygame.locals import *
 from config import * # gets all setting constants
 from player import Player
 
 pg.init()
-vec = pg.math.Vector2 # used for 2 dimensional movement calculations     
+vec = pg.math.Vector2 # used for 2 dimensional movement calculations    
+
+C1 = Coin(300,200)
 
 FPS = pg.time.Clock()
 DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 
-P1 = Player(K_LEFT, K_RIGHT)
-P2 = Player(K_a, K_d)
+P1 = Player(K_LEFT, K_RIGHT, "BlueRobot.png")
+P2 = Player(K_a, K_d,"RedRobot.png")
 
 platforms = []
 for i in range(random.randint(20,25)): #creates between 18 and 25
@@ -55,11 +58,27 @@ while (True):
         P2.jump(platforms)
   
   # update the players
+
+  if(C1.rect.x < 0 or C1.rect.x > WIDTH or C1.rect.y < 0 or C1.rect.y > HEIGHT):
+    x = random.randint(20,WIDTH-20)
+    y = random.randint(20,HEIGHT-20)
+
+
+    C1 = Coin(x,y)
+
+
+  if(C1.rect.colliderect(P1) or C1.rect.colliderect(P2)):
+            C1.rect.x = -1000
+            C1.rect.y = -1000
+
+  
+  # update the player
   P1.update(all_platforms)
   P2.update(all_platforms)
   
   # blank out the display surface in preparation for drawing new frame
-  DISPLAYSURF.fill(WHITE)
+  DISPLAYSURF.fill(GREY)
+  DISPLAYSURF.blit(pg.image.load("Backgroun.png"),[0,0])
 
   # draws the platforms to screen
   for platform in platforms:  
@@ -71,8 +90,10 @@ while (True):
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
       
-  DISPLAYSURF.blit(P1.surf,P1.rect)
-  DISPLAYSURF.blit(P2.surf, P2.rect)
+  DISPLAYSURF.blit(P1.image,P1.rect)
+  DISPLAYSURF.blit(P2.image, P2.rect)
+
+  DISPLAYSURF.blit(C1.image,C1.rect)
 
   pg.display.update()
   FPS.tick(FRAMERATE)
