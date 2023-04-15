@@ -65,6 +65,7 @@ bluerect.center = (WIDTH/2, 400)
 red = font.render('Red uses WASD to move', True, RED)
 redrect = red.get_rect()
 redrect.center = (WIDTH/2, 600)
+
 # Begin main game loop
 while (True):
   # check events first
@@ -106,6 +107,18 @@ while (True):
               C1.rect.x = -1000
               C1.rect.y = -1000
               P2.score += 1
+
+    scoreBlue = font.render('Blue Player Score: ' + str(P1.score), True, BLUE)
+    scoreBluerect = scoreBlue.get_rect()
+    scoreBluerect.center = (50,50)
+
+    scoreRed = font.render('Red Player Score: ' + str(P2.score), True, BLUE)
+    scoreRedrect = scoreBlue.get_rect()
+    scoreRedrect.center = (50,100)
+
+    DISPLAYSURF.blit(scoreBlue,scoreBluerect)
+    
+    DISPLAYSURF.blit(scoreRed,scoreRedrect)
 
     
     # update the player
