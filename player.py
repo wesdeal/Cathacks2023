@@ -41,10 +41,18 @@ class Player(pg.sprite.Sprite):
         
         self.rect.midbottom = self.pos
         
-    # used to check for collisions with a specified group before movement occurs
-    def update(self, group):
-        hits = pg.sprite.spritecollide(self, group, False)
-        if hits: # if you did indeed have a hit
-            self.pos.y = hits[0].rect.top + 1 # Has to be slightly below the first rect you hit
-            self.vel.y = 0
+    # used to check for collisions with all the platforms
+    def check_platform_collide(self, platforms):
+        hits = pg.sprite.spritecollide(self, platforms, False)
+        # Make sure we don't cancel the effect of jump (only stop if there's already velocity)
+        if self.vel.y > 0:
+          if hits: # if you did indeed have a hit
+              self.pos.y = hits[0].rect.top + 1 # Has to be slightly below the first rect you hit
+              self.vel.y = 0
+    
+    # Requires platform group to be passed in
+    def jump(self, platforms):
+      hits = pg.sprite.spritecollide(self, platforms, False)
+      if hits:
+        self.vel.y = -15
     
