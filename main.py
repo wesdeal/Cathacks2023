@@ -1,5 +1,7 @@
 import pygame as pg
 import sys
+from Platform import Platform
+
 from pygame.locals import *
 from config import * # gets all setting constants
 from player import Player
@@ -12,9 +14,10 @@ DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 
 HEIGHT = 450
 WIDTH = 400
-displaysurface = pg.display.set_mode((WIDTH, HEIGHT))
 
 P1 = Player()
+
+platform = Platform(x=100, y=200)
 
 # Begin main game loop
 while (True):
@@ -25,7 +28,8 @@ while (True):
   
   # blank out the display surface in preparation for drawing new frame
   DISPLAYSURF.fill(WHITE)
-  displaysurface.blit(P1.surf,P1.rect)
+  DISPLAYSURF.blit(P1.surf,P1.rect)
+  DISPLAYSURF.blit(platform.surf, platform.rect)
   P1.update()
   P1.move()
 
