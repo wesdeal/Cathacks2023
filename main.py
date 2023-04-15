@@ -11,7 +11,7 @@ from player import Player
 pg.init()
 vec = pg.math.Vector2 # used for 2 dimensional movement calculations    
 
-background = pg.image.load("Backgroun.png")
+background = pg.image.load("PyBackground.jpg")
 
 C1 = Coin(300,200)
 
