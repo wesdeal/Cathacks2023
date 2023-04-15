@@ -17,6 +17,7 @@ FRAMERATE = 60
 # NOTE: Do not set FRIC outside [-1, 0) unless you want !!FUN!!
 FRIC = -0.12
 ACC = 0.5
+GRAV = 0.5
 
 # Some predefined colors for easy use
 BLACK = pg.Color(0, 0, 0)         
