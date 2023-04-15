@@ -2,8 +2,6 @@ import pygame as pg
 import random
 from config import *
 
-
-
 class Platform(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
