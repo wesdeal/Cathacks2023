@@ -24,7 +24,6 @@ P1 = Player()
 
 
 platforms = []
-#def PlatformGen():
 for i in range(random.randint(20,25)): #creates between 18 and 25
   while True:
     x = random.randint(15,985)
@@ -46,52 +45,37 @@ for x in range(random.randint(2,6)):
   j = random.randint(0,len(platforms)-1)
   moving_plat.append(platforms[j])
 
-#check if any moving rect hits static platform, if so, delete static plat if poss
+all_platforms = pg.sprite.Group()
+all_platforms.add(moving_plat)
+all_platforms.add(platforms)
 
-#new_platforms = []
 # Begin main game loop
 while (True):
   # check events first
   for event in pg.event.get():
     if event.type == QUIT:
       sys.exit()
+    elif event.type == KEYDOWN:
+      if event.key == K_UP:
+        P1.jump(platforms)
+  
+  # update the player
+  P1.update(all_platforms)
   
   # blank out the display surface in preparation for drawing new frame
   DISPLAYSURF.fill(WHITE)
-  DISPLAYSURF.blit(P1.surf,P1.rect)
 
-  
-  #new_platforms = []
-
-  """ for i in range(len(platforms)):
-    for j in range(len(moving_plat)):
-      if abs(moving_plat[j].rect.y-platforms[i].rect.y) > 30:
-        break #skips adding this platform to new platform array
-      else:
-        new_platforms.append(moving_plat[j]) """
-
+  # draws the platforms to screen
   for platform in platforms:  
       DISPLAYSURF.blit(platform.surf, platform.rect)
   
-  #platforms = new_platforms #updates old platforms array to only oens that dont collide
-  #for platform in platforms:  
-  #    DISPLAYSURF.blit(platform.surf, platform.rect)
-
-  
-
   for g in range(0, len(moving_plat)):
     moving_plat[g].rect.x += moving_plat[g].vel
     DISPLAYSURF.blit(moving_plat[g].surf, moving_plat[g].rect)
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
 
-
-  
-  #coinPlatform = platforms[random.randint(0,len(platforms))]
-
-  #movingRect()
-  P1.update()
-  P1.move()
+  DISPLAYSURF.blit(P1.surf,P1.rect)
 
   pg.display.update()
   FPS.tick(FRAMERATE)

@@ -20,7 +20,6 @@ class Player(pg.sprite.Sprite):
         self.vel = vec(0,0)
         self.acc = vec(0,0)
 
-    # update splits movement into two portions, vertical and horizontal
     def update(self, platforms):
         self.horiz_moving = False
         self.acc = vec(0,GRAV) # By default it's going down
@@ -65,15 +64,6 @@ class Player(pg.sprite.Sprite):
               self.pos.y = hits[0].rect.bottom + self.height / 2 + 1
               self.vel.y = 0
               self.horiz_moving = False
-        # First we move vertically and check for collisions there
-        # self.vel.y += self.acc.y
-        # self.pos.y += self.vel.y + 0.5 * self.acc.y # 0.5 is from kinematics eqn
-        # self.check_vert_collisions(platforms)
-
-        # Next: move horizontally and check for collisions there
-        # self.vel.x += self.acc.x
-        # self.pos.x += self.vel.x + 0.5 * self.acc.x # 0.5 is from kinematics eqn
-        # self.check_horiz_collisions(platforms)
 
         # quick way to allow screen wrapping
         if self.pos.x > WIDTH:
@@ -81,39 +71,11 @@ class Player(pg.sprite.Sprite):
         if self.pos.x < 0:
             self.pos.x = WIDTH
         if self.pos.y > HEIGHT:
-            self.pos.y = HEIGHT
+            self.pos.y = 0
         if self.pos.y < 0:
             self.pos.y = HEIGHT
         
         self.rect.center = self.pos
-        
-    # def check_vert_collisions(self, platforms):
-    #   # get any collisions that may be happening
-    #   # can safely assume any collisions will be on the vertical, since
-    #   # we haven't moved horizontally at all
-    #   hits = pg.sprite.spritecollide(self, platforms, False)
-    #   if hits:
-    #     # First check if we're hitting something going down
-    #     # need to also make sure we aren't canceling jump
-    #     if self.rect.bottom > hits[0].rect.top and self.vel.y > 0:
-    #       self.pos.y = hits[0].rect.top - self.height / 2
-    #       self.vel.y = 0
-    #     # again, safely assume these are mutually exclusive due to 
-    #     # how platform generation works 
-    #     elif self.rect.top < hits[0].rect.top:
-    #       self.pos.y = hits[0].rect.bottom + self.height / 2 + 1 # "bounce back"
-    #       self.vel.y = 0
-
-    # def check_horiz_collisions(self, platforms):
-    #   hits = pg.sprite.spritecollide(self, platforms, False)
-    #   if hits:
-    #     # if player has a collision on their right
-    #     if self.rect.right > hits[0].rect.left:
-    #       self.pos.x = hits[0].rect.left - self.width / 2 - 1 # "bounce back"
-    #       self.vel.x = 0
-    #     elif self.rect.left < hits[0].rect.right:
-    #       self.pos.x = hits[0].rect.right + self.width / 2
-    #       self.vel.x = 0
           
     # used to check for collisions with all the platforms
     def check_platform_collide(self, platforms):
