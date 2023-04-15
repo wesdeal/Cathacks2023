@@ -21,6 +21,7 @@ DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 P1 = Player(K_LEFT, K_RIGHT, "BlueRobot.png", (50, 50))
 P2 = Player(K_a, K_d,"RedRobot.png", (WIDTH - 50, 50))
 
+#Creates array of platform objects, a random number in random positions but not too close to each other
 platforms = []
 for i in range(random.randint(25,30)): #creates between 18 and 25
   while True:
@@ -28,6 +29,7 @@ for i in range(random.randint(25,30)): #creates between 18 and 25
     y = random.randint(75,775)
     new_platform = Platform(x,y)
 
+  #Checks if platforms are too close
     overlap = False
     for platform in platforms:
       if (abs(x - platform.rect.x) < PLAT_PADDING_X and abs(y - platform.rect.y) < PLAT_PADDING_Y):
@@ -55,6 +57,7 @@ all_platforms.add(platforms)
 
 game_state = "start"
 
+#Setting up font parameters for start screen
 font = pg.font.SysFont('Arial', 40)
 button = font.render('Begin (SPACE)', True, WHITE)
 buttonrect = button.get_rect()
@@ -80,7 +83,7 @@ while (True):
       if event.key == K_w:
         P2.jump(platforms)
     
-  
+  #Code for start screen
   if game_state == "start":
     DISPLAYSURF.blit(button, buttonrect)
     DISPLAYSURF.blit(blue, bluerect)
@@ -90,6 +93,7 @@ while (True):
   else:
      # update the players
 
+    #Creates coins at random positions if it is off the screen. It is moved off the screen when it is collected
     if(C1.rect.x < 0 or C1.rect.x > WIDTH or C1.rect.y < 0 or C1.rect.y > HEIGHT):
       x = random.randint(20,WIDTH-20)
       y = random.randint(20,HEIGHT-20)
@@ -98,7 +102,7 @@ while (True):
       C1 = Coin(x,y)
 
       
-
+    #If coin is touched by player, it is moved off screen and also increments score
     if(C1.rect.colliderect(P1)):
               C1.rect.x = -1000
               C1.rect.y = -1000
@@ -108,6 +112,7 @@ while (True):
               C1.rect.y = -1000
               P2.score += 1
 
+    #Failed implementation of constant score on screen
     scoreBlue = font.render('Blue Player Score: ' + str(P1.score), True, BLUE)
     scoreBluerect = scoreBlue.get_rect()
     scoreBluerect.center = (50,50)
