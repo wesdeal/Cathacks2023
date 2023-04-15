@@ -12,12 +12,12 @@ class Player(pg.sprite.Sprite):
         self.surf.fill(RED)
         self.rect = self.surf.get_rect()
 
-        self.pos = vec((10, 385))
+        self.pos = vec((50, 0))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
-        
+
     def move(self):
-        self.acc = vec(0,0)
+        self.acc = vec(0,GRAV) # By default it's going down
         
         pressed_keys = pg.key.get_pressed()
         if pressed_keys[K_LEFT]:
@@ -34,6 +34,17 @@ class Player(pg.sprite.Sprite):
             self.pos.x = 0
         if self.pos.x < 0:
             self.pos.x = WIDTH
+        if self.pos.y > HEIGHT:
+            self.pos.y = HEIGHT
+        if self.pos.y < 0:
+            self.pos.y = HEIGHT
         
         self.rect.midbottom = self.pos
+        
+    # used to check for collisions with a specified group before movement occurs
+    def update(self, group):
+        hits = pg.sprite.spritecollide(self, group, False)
+        if hits: # if you did indeed have a hit
+            self.pos.y = hits[0].rect.top + 1 # Has to be slightly below the first rect you hit
+            self.vel.y = 0
     
