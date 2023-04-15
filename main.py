@@ -11,6 +11,8 @@ from player import Player
 pg.init()
 vec = pg.math.Vector2 # used for 2 dimensional movement calculations    
 
+background = pg.image.load("Backgroun.png")
+
 C1 = Coin(300,200)
 
 FPS = pg.time.Clock()
@@ -90,7 +92,7 @@ while (True):
   
   # blank out the display surface in preparation for drawing new frame
   DISPLAYSURF.fill(GREY)
-  DISPLAYSURF.blit(pg.image.load("Backgroun.png"),[0,0])
+  DISPLAYSURF.blit(background,[0,0])
 
   # draws the platforms to screen
   for platform in platforms:  
