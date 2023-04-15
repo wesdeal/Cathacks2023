@@ -102,7 +102,9 @@ class Player(pg.sprite.Sprite):
 
     # Requires platform group to be passed in
     def jump(self, platforms):
+      self.rect.y += 1
       hits = pg.sprite.spritecollide(self, platforms, False)
+      self.rect.y -= 1
       if hits: # only allow jumping if you're actually on a platform
         self.vel.y = -15
 
