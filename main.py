@@ -53,6 +53,18 @@ all_platforms = pg.sprite.Group()
 #all_platforms.add(moving_plat)
 all_platforms.add(platforms)
 
+game_state = "start"
+
+font = pg.font.SysFont('Arial', 40)
+button = font.render('Begin (SPACE)', True, WHITE)
+buttonrect = button.get_rect()
+buttonrect.center = (WIDTH/2, 200)
+blue = font.render('Blue uses Arrow Keys to move', True, BLUE)
+bluerect = blue.get_rect()
+bluerect.center = (WIDTH/2, 400)
+red = font.render('Red uses WASD to move', True, RED)
+redrect = red.get_rect()
+redrect.center = (WIDTH/2, 600)
 # Begin main game loop
 while (True):
   # check events first
@@ -60,55 +72,65 @@ while (True):
     if event.type == QUIT:
       sys.exit()
     elif event.type == KEYDOWN:
+      if event.key == K_SPACE:
+        game_state = "game"
       if event.key == K_UP:
         P1.jump(platforms)
       if event.key == K_w:
         P2.jump(platforms)
+    
   
-  # update the players
+  if game_state == "start":
+    DISPLAYSURF.blit(button, buttonrect)
+    DISPLAYSURF.blit(blue, bluerect)
+    DISPLAYSURF.blit(red, redrect)
+    pg.display.update()
 
-  if(C1.rect.x < 0 or C1.rect.x > WIDTH or C1.rect.y < 0 or C1.rect.y > HEIGHT):
-    x = random.randint(20,WIDTH-20)
-    y = random.randint(20,HEIGHT-20)
+  else:
+     # update the players
+
+    if(C1.rect.x < 0 or C1.rect.x > WIDTH or C1.rect.y < 0 or C1.rect.y > HEIGHT):
+      x = random.randint(20,WIDTH-20)
+      y = random.randint(20,HEIGHT-20)
 
 
-    C1 = Coin(x,y)
+      C1 = Coin(x,y)
+
+      
+
+    if(C1.rect.colliderect(P1)):
+              C1.rect.x = -1000
+              C1.rect.y = -1000
+              P1.score += 1
+    if(C1.rect.colliderect(P2)):
+              C1.rect.x = -1000
+              C1.rect.y = -1000
+              P2.score += 1
 
     
+    # update the player
+    P1.update(all_platforms)
+    P2.update(all_platforms)
+    
+    # blank out the display surface in preparation for drawing new frame
+    DISPLAYSURF.fill(GREY)
+    DISPLAYSURF.blit(background,[0,0])
 
-  if(C1.rect.colliderect(P1)):
-            C1.rect.x = -1000
-            C1.rect.y = -1000
-            P1.score += 1
-  if(C1.rect.colliderect(P2)):
-            C1.rect.x = -1000
-            C1.rect.y = -1000
-            P2.score += 1
+    # draws the platforms to screen
+    for platform in platforms:  
+        DISPLAYSURF.blit(platform.image, platform.rect)
+    
+    for g in range(0, len(platforms)):
+      platforms[g].rect.x += platforms[g].vel
+      DISPLAYSURF.blit(platforms[g].image, platforms[g].rect)
+      if platforms[g].rect.right >= 1000 or platforms[g].rect.left <= 0:
+        platforms[g].vel *= -1
+        
+    DISPLAYSURF.blit(P1.image,P1.rect)
+    DISPLAYSURF.blit(P2.image, P2.rect)
 
-  
-  # update the player
-  P1.update(all_platforms)
-  P2.update(all_platforms)
-  
-  # blank out the display surface in preparation for drawing new frame
-  DISPLAYSURF.fill(GREY)
-  DISPLAYSURF.blit(background,[0,0])
-
-  # draws the platforms to screen
-  for platform in platforms:  
-      DISPLAYSURF.blit(platform.image, platform.rect)
-  
-  for g in range(0, len(platforms)):
-    platforms[g].rect.x += platforms[g].vel
-    DISPLAYSURF.blit(platforms[g].image, platforms[g].rect)
-    if platforms[g].rect.right >= 1000 or platforms[g].rect.left <= 0:
-      platforms[g].vel *= -1
-      
-  DISPLAYSURF.blit(P1.image,P1.rect)
-  DISPLAYSURF.blit(P2.image, P2.rect)
-
-  DISPLAYSURF.blit(C1.image,C1.rect)
+    DISPLAYSURF.blit(C1.image,C1.rect)
 
 
-  pg.display.update()
-  FPS.tick(FRAMERATE)
+    pg.display.update()
+    FPS.tick(FRAMERATE)
