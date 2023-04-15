@@ -67,9 +67,14 @@ while (True):
     C1 = Coin(x,y)
 
 
-  if(C1.rect.colliderect(P1) or C1.rect.colliderect(P2)):
+  if(C1.rect.colliderect(P1)):
             C1.rect.x = -1000
             C1.rect.y = -1000
+            P1.score += 1
+  if(C1.rect.colliderect(P2)):
+            C1.rect.x = -1000
+            C1.rect.y = -1000
+            P2.score += 1
 
   
   # update the player
@@ -89,6 +94,8 @@ while (True):
     DISPLAYSURF.blit(moving_plat[g].image, moving_plat[g].rect)
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
+
+  print(str(P1.score) + " " + str(P2.score))
       
   DISPLAYSURF.blit(P1.image,P1.rect)
   DISPLAYSURF.blit(P2.image, P2.rect)
