@@ -20,9 +20,6 @@ DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 
 P1 = Player()
 
-
-
-
 platforms = []
 for i in range(random.randint(20,25)): #creates between 18 and 25
   while True:
@@ -67,15 +64,15 @@ while (True):
 
   # draws the platforms to screen
   for platform in platforms:  
-      DISPLAYSURF.blit(platform.surf, platform.rect)
+      DISPLAYSURF.blit(platform.image, platform.rect)
   
   for g in range(0, len(moving_plat)):
     moving_plat[g].rect.x += moving_plat[g].vel
-    DISPLAYSURF.blit(moving_plat[g].surf, moving_plat[g].rect)
+    DISPLAYSURF.blit(moving_plat[g].image, moving_plat[g].rect)
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
 
-  DISPLAYSURF.blit(P1.surf,P1.rect)
+  DISPLAYSURF.blit(P1.image,P1.rect)
 
   pg.display.update()
   FPS.tick(FRAMERATE)

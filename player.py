@@ -8,11 +8,12 @@ vec = pg.math.Vector2
 class Player(pg.sprite.Sprite):
     def __init__(self):
         super().__init__() 
+        self.image = pg.image.load("RobotPlayer.png")
+        self.rect = self.image.get_rect()
         self.width = 30
         self.height = 30
         self.surf = pg.Surface((self.width, self.height))
         self.surf.fill(RED)
-        self.rect = self.surf.get_rect()
         self.horiz_moving = False
 
         # self.pos corresponds to the center of the Player's rect
