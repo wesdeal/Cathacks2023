@@ -71,8 +71,8 @@ while (True):
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
       
-  DISPLAYSURF.blit(P1.surf,P1.rect)
-  DISPLAYSURF.blit(P2.surf, P2.rect)
+  DISPLAYSURF.blit(P1.image,P1.rect)
+  DISPLAYSURF.blit(P2.image, P2.rect)
 
   pg.display.update()
   FPS.tick(FRAMERATE)
