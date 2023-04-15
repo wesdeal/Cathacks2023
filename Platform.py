@@ -11,4 +11,4 @@ class Platform(pg.sprite.Sprite):
         self.rect = self.surf.get_rect(topleft=(x, y))
         self.rect.x = x
         self.rect.y = y
-        self.vel = x_speed
+        self.vel = 0
