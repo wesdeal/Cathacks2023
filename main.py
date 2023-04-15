@@ -66,6 +66,7 @@ while (True):
 
     C1 = Coin(x,y)
 
+    
 
   if(C1.rect.colliderect(P1)):
             C1.rect.x = -1000
@@ -94,8 +95,6 @@ while (True):
     DISPLAYSURF.blit(moving_plat[g].image, moving_plat[g].rect)
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
-
-  print(str(P1.score) + " " + str(P2.score))
       
   DISPLAYSURF.blit(P1.image,P1.rect)
   DISPLAYSURF.blit(P2.image, P2.rect)
