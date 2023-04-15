@@ -7,18 +7,14 @@ from pygame.locals import *
 from config import * # gets all setting constants
 from player import Player
 
-
-""" def movingRect():
-  moving_plat.x += x_speed
-  pg.draw.rect(DISPLAYSURF, (0,255,0), moving_plat) """
-
 pg.init()
 vec = pg.math.Vector2 # used for 2 dimensional movement calculations     
 
 FPS = pg.time.Clock()
 DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 
-P1 = Player()
+P1 = Player(K_LEFT, K_RIGHT)
+P2 = Player(K_a, K_d)
 
 platforms = []
 for i in range(random.randint(20,25)): #creates between 18 and 25
@@ -55,9 +51,12 @@ while (True):
     elif event.type == KEYDOWN:
       if event.key == K_UP:
         P1.jump(platforms)
+      if event.key == K_w:
+        P2.jump(platforms)
   
-  # update the player
+  # update the players
   P1.update(all_platforms)
+  P2.update(all_platforms)
   
   # blank out the display surface in preparation for drawing new frame
   DISPLAYSURF.fill(WHITE)
@@ -71,8 +70,9 @@ while (True):
     DISPLAYSURF.blit(moving_plat[g].image, moving_plat[g].rect)
     if moving_plat[g].rect.right >= 1000 or moving_plat[g].rect.left <= 0:
       moving_plat[g].vel *= -1
-
-  DISPLAYSURF.blit(P1.image,P1.rect)
+      
+  DISPLAYSURF.blit(P1.surf,P1.rect)
+  DISPLAYSURF.blit(P2.surf, P2.rect)
 
   pg.display.update()
   FPS.tick(FRAMERATE)

@@ -6,7 +6,7 @@ from pygame.locals import *
 vec = pg.math.Vector2
 
 class Player(pg.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, left, right):
         super().__init__() 
         self.image = pg.image.load("RobotPlayer.png")
         self.rect = self.image.get_rect()
@@ -21,15 +21,18 @@ class Player(pg.sprite.Sprite):
         self.vel = vec(0,0)
         self.acc = vec(0,0)
 
+        self.ctrl_left = left
+        self.ctrl_right = right
+
     def update(self, platforms):
         self.horiz_moving = False
         self.acc = vec(0,GRAV) # By default it's going down
         
         # horizontal movement
         pressed_keys = pg.key.get_pressed()
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[self.ctrl_left]:
             self.acc.x = -0.5
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[self.ctrl_right]:
             self.acc.x = 0.5  
 
         # apply friction in x direction
