@@ -18,8 +18,8 @@ C1 = Coin(300,200)
 FPS = pg.time.Clock()
 DISPLAYSURF = pg.display.set_mode((WIDTH, HEIGHT))
 
-P1 = Player(K_LEFT, K_RIGHT, "BlueRobot.png")
-P2 = Player(K_a, K_d,"RedRobot.png")
+P1 = Player(K_LEFT, K_RIGHT, "BlueRobot.png", (50, 50))
+P2 = Player(K_a, K_d,"RedRobot.png", (WIDTH - 50, 50))
 
 platforms = []
 for i in range(random.randint(25,30)): #creates between 18 and 25

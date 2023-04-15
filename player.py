@@ -6,7 +6,7 @@ from pygame.locals import *
 vec = pg.math.Vector2
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, left, right, img):
+    def __init__(self, left, right, img, start):
         super().__init__() 
         self.image = pg.image.load(img)
         self.rect = self.image.get_rect()
@@ -18,7 +18,7 @@ class Player(pg.sprite.Sprite):
         self.horiz_moving = False
 
         # self.pos corresponds to the center of the Player's rect
-        self.pos = vec((50, 0))
+        self.pos = vec(start)
         self.vel = vec(0,0)
         self.acc = vec(0,0)
 
