@@ -16,6 +16,7 @@ class Player(pg.sprite.Sprite):
         self.surf = pg.Surface((self.width, self.height))
         self.surf.fill(RED)
         self.horiz_moving = False
+        self.stpos = vec(start)
 
         # self.pos corresponds to the center of the Player's rect
         self.pos = vec(start)
@@ -25,16 +26,26 @@ class Player(pg.sprite.Sprite):
         self.ctrl_left = left
         self.ctrl_right = right
 
+    # def dash(self, cd):
+    #   if self.vel.x > 0 and cd == 0:
+    #       self.vel.x = 35
+    #       cd += 300
+    #   if self.vel.x < 0 and cd == 0:
+    #      self.vel.x = -35
+    #      cd += 300
+
+
     def update(self, platforms):
         self.horiz_moving = False
         self.acc = vec(0,GRAV) # By default it's going down
         
         # horizontal movement
         pressed_keys = pg.key.get_pressed()
-        if pressed_keys[self.ctrl_left]:
-            self.acc.x = -0.5
-        if pressed_keys[self.ctrl_right]:
-            self.acc.x = 0.5  
+        if(self.acc.x <= 0.5 and self.acc.x >= -0.5):
+          if pressed_keys[self.ctrl_left]:
+            self.acc.x += -0.5
+          if pressed_keys[self.ctrl_right]:
+            self.acc.x += 0.5  
 
         # apply friction in x direction
         self.acc.x += self.vel.x * FRIC
@@ -43,6 +54,7 @@ class Player(pg.sprite.Sprite):
         self.pos += self.vel + 0.5 * self.acc
 
         hits = pg.sprite.spritecollide(self, platforms, False)
+        
         if hits:
           # # # check for player collision on the right of player
           if abs(hits[0].rect.left - self.rect.right) < 10:
@@ -95,6 +107,7 @@ class Player(pg.sprite.Sprite):
           if abs(hits[0].rect.right - self.rect.left) < 10:
             self.pos.x = hits[0].rect.right + self.width / 2
             self.vel.x = 0
+
           # need to also make sure we're not interrupting jump
           if self.rect.bottom > hits[0].rect.top and self.vel.y > 0:
               self.pos.y = hits[0].rect.top - self.height / 2
@@ -111,6 +124,7 @@ class Player(pg.sprite.Sprite):
       hits = pg.sprite.spritecollide(self, platforms, False)
       self.rect.y -= 1
       if hits: # only allow jumping if you're actually on a platform
+        if self.vel.x > 0:
+           self.vel.x += 1
         self.vel.y = -15
 
-  

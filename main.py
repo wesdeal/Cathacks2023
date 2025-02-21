@@ -62,12 +62,14 @@ font = pg.font.SysFont('Arial', 40)
 button = font.render('Begin (SPACE)', True, WHITE)
 buttonrect = button.get_rect()
 buttonrect.center = (WIDTH/2, 200)
-blue = font.render('Blue uses Arrow Keys to move', True, BLUE)
+blue = font.render('Blue uses Arrow Keys to move Test', True, BLUE)
 bluerect = blue.get_rect()
 bluerect.center = (WIDTH/2, 400)
 red = font.render('Red uses WASD to move', True, RED)
 redrect = red.get_rect()
 redrect.center = (WIDTH/2, 600)
+P1dcd = 0
+P2dcd = 0
 
 # Begin main game loop
 while (True):
@@ -82,7 +84,16 @@ while (True):
         P1.jump(platforms)
       if event.key == K_w:
         P2.jump(platforms)
-    
+      #if event.key == K_LSHIFT:
+         #P2.dash(P2dcd)
+      #if event.key == K_RSHIFT:
+         #P1.dash(P1dcd)
+
+  if P1dcd > 0:
+     P1dcd += -1
+  if P2dcd > 0:
+     P2dcd += -1
+
   #Code for start screen
   if game_state == "start":
     DISPLAYSURF.blit(button, buttonrect)
@@ -91,7 +102,7 @@ while (True):
     pg.display.update()
 
   else:
-     # update the players
+    # update the players
 
     #Creates coins at random positions if it is off the screen. It is moved off the screen when it is collected
     if(C1.rect.x < 0 or C1.rect.x > WIDTH or C1.rect.y < 0 or C1.rect.y > HEIGHT):
@@ -99,8 +110,8 @@ while (True):
       y = random.randint(20,HEIGHT-20)
 
 
-      C1 = Coin(x,y)
-
+      C1.rect.x = x
+      C1.rect.y = y
       
     #If coin is touched by player, it is moved off screen and also increments score
     if(C1.rect.colliderect(P1)):
@@ -115,16 +126,11 @@ while (True):
     #Failed implementation of constant score on screen
     scoreBlue = font.render('Blue Player Score: ' + str(P1.score), True, BLUE)
     scoreBluerect = scoreBlue.get_rect()
-    scoreBluerect.center = (50,50)
+    scoreBluerect.center = (200,50)
 
-    scoreRed = font.render('Red Player Score: ' + str(P2.score), True, BLUE)
+    scoreRed = font.render('Red Player Score: ' + str(P2.score), True, RED)
     scoreRedrect = scoreBlue.get_rect()
-    scoreRedrect.center = (50,100)
-
-    DISPLAYSURF.blit(scoreBlue,scoreBluerect)
-    
-    DISPLAYSURF.blit(scoreRed,scoreRedrect)
-
+    scoreRedrect.center = (800,50)
     
     # update the player
     P1.update(all_platforms)
@@ -133,6 +139,10 @@ while (True):
     # blank out the display surface in preparation for drawing new frame
     DISPLAYSURF.fill(GREY)
     DISPLAYSURF.blit(background,[0,0])
+
+    DISPLAYSURF.blit(scoreBlue,scoreBluerect)
+    
+    DISPLAYSURF.blit(scoreRed,scoreRedrect)
 
     # draws the platforms to screen
     for platform in platforms:  
@@ -148,7 +158,6 @@ while (True):
     DISPLAYSURF.blit(P2.image, P2.rect)
 
     DISPLAYSURF.blit(C1.image,C1.rect)
-
 
     pg.display.update()
     FPS.tick(FRAMERATE)
